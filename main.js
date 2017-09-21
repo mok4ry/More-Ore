@@ -32,6 +32,8 @@ let beautify = (num) => {
 
 let Game = {}
 
+window.Game = Game;
+
 Game.launch = () => {
 
   Game.state = {
@@ -89,7 +91,7 @@ Game.launch = () => {
 
   Game.save = () => {
     localStorage.setItem('state', JSON.stringify(Game.state))
-    for (i in Game.items) {
+    for (let i in Game.items) {
       localStorage.setItem(`item-${i}`, JSON.stringify(Game.items[i]))
     }
   }
@@ -98,7 +100,7 @@ Game.launch = () => {
     if (localStorage.getItem('state') !== null) {
       Game.state = JSON.parse(localStorage.getItem('state'))
 
-      for (i in Game.items) {
+      for (let i in Game.items) {
         Game.items[i] = JSON.parse(localStorage.getItem(`item-${i}`))
       }
 
@@ -153,7 +155,7 @@ Game.launch = () => {
   let calculateOPS = () => {
     let ops = 0
 
-    for (i in Game.items) {
+    for (let i in Game.items) {
       if (Game.items[i].type == 'item') {
         ops += Game.items[i].production * Game.items[i].owned
       }
@@ -191,7 +193,7 @@ Game.launch = () => {
       item.style.position = 'relative'
       item.id = `item-${amountOfRocksDestroyed}`
 
-      itemContainer.append(item)
+      itemContainer.appendChild(item)
 
       item.addEventListener('click', () => {
         s('.item-pouch-glow').style.display = 'none'
@@ -200,13 +202,13 @@ Game.launch = () => {
         item.style.pointerEvents = 'none'
         s('.item-drop').classList.add('item-pickup-animation')
         setTimeout(() => {
-          itemContainer.remove()
+          itemContainer.parentNode.removeChild(itemContainer)
           pickUpItem(iLvl)
         }, 800)
       })
 
 
-      s('body').append(itemContainer)
+      s('body').appendChild(itemContainer)
     }
   }
 
@@ -483,7 +485,7 @@ Game.launch = () => {
     `
 
     itemModal.innerHTML = str
-    s('body').append(itemModal)
+    s('body').appendChild(itemModal)
   }
 
   Game.itemModalClick = (str) => {
@@ -491,7 +493,8 @@ Game.launch = () => {
     if (str == 'equip') {
       Game.state.player.pickaxe = Game.newItem
     }
-    s('.item-modal-container').remove()
+    let itemContainer = s('.item-modal-container')
+    itemContainer.parentNode.removeChild(itemContainer)
   }
 
   let buildInventory = () => {
@@ -510,7 +513,7 @@ Game.launch = () => {
       <div class="upgrades-container">
     `
     let hasContent = 0
-    for (i in Game.items) {
+    for (let i in Game.items) {
       let item = Game.items[i]
       if (item.type == 'upgrade') {
         if (item.hidden == 0) {
@@ -526,7 +529,7 @@ Game.launch = () => {
     if (hasContent == 0) str += `<h3 style="text-align: center; width: 100%; opacity: .5">no upgrades available</h3>`
     str += `</div><div class="horizontal-separator" style='height: 8px;'></div>`
 
-    for (i in Game.items) {
+    for (let i in Game.items) {
       let item = Game.items[i]
       if (item.type == 'item') {
         if (item.hidden == 0) {
@@ -846,7 +849,7 @@ Game.launch = () => {
   let loadAd = () => {
     if (adsLoaded == false) {
       adsLoaded = true
-      for (i = 0; i < 3; i++) {
+      for (let i = 0; i < 3; i++) {
         let script = document.createElement('script')
         script.src = '//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
         let ins = document.createElement('ins')
@@ -856,14 +859,14 @@ Game.launch = () => {
         ins.setAttribute('data-ad-slot', '6565116738')
 
         let div = s('#ads-im-sorry-please-dont-hate-me')
-        div.append(script)
-        div.append(ins)
+        div.appendChild(script)
+        div.appendChild(ins)
 
         if (s('ins').style.display == 'block') {
           ins.setAttribute('data-ad-format', 'rectangle, horizontal');
           (adsbygoogle = window.adsbygoogle || []).push({});
         }
-      s('.tab-content-container').append(div)
+      s('.tab-content-container').appendChild(div)
       }
     }
   }
@@ -1213,7 +1216,7 @@ Game.launch = () => {
   }
 
   let generateStoreItems = () => {
-    for (i in Game.items) {
+    for (let i in Game.items) {
       new Item(Game.items[i])
     }
   }
@@ -1347,15 +1350,15 @@ Game.launch = () => {
       risingNumber.style.color = 'red'
     }
 
-    s('.particles').append(risingNumber)
+    s('.particles').appendChild(risingNumber)
 
     setTimeout(() => {
-      risingNumber.remove()
+      risingNumber.parentNode.removeChild(risingNumber)
     }, 2000)
   }
 
   let drawRockParticles = () => {
-    for (i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i++) {
       let div = document.createElement('div')
       div.classList.add('particle')
       div.style.background = 'lightgrey'
@@ -1389,11 +1392,11 @@ Game.launch = () => {
 
         setTimeout(() => {
           clearInterval(particleDown)
-          div.remove()
+          div.parentNode.removeChild(div)
         }, 1000)
       }, 100)
 
-      s('body').append(div)
+      s('body').appendChild(div)
     }
   }
 
@@ -1411,7 +1414,8 @@ Game.launch = () => {
     if (Game.state.stats.oreClicks >= 10 ) unlockUpgrades('WorkBoots')
     if (Game.state.stats.oreClicks >= 100) unlockUpgrades('Painkillers')
     if (document.querySelector('.click-me-container')) {
-      s('.click-me-container').remove()
+      let clickMeContainer = s('.click-me-container')
+      clickMeContainer.parentNode.removeChild(clickMeContainer)
     }
   }
 
@@ -1463,7 +1467,7 @@ Game.launch = () => {
       <div class="click-me-right"></div>
     `
     clickMeContainer.style.left = orePos.left - clickMeContainer.getBoundingClientRect().width + 'px'
-    s('body').append(clickMeContainer)
+    s('body').appendChild(clickMeContainer)
   }
   if (Game.items['MagnifyingGlass'].owned > 0) oreClickArea()
 }

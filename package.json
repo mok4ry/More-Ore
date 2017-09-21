@@ -1,0 +1,38 @@
+{
+  "name": "more-ore",
+  "version": "0.6.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iSyn/More-Ore.git"
+  },
+  "keywords": [
+    "game",
+    "html5",
+    "clicker",
+    "incremental"
+  ],
+  "author": "Synclair Wang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iSyn/More-Ore/issues"
+  },
+  "homepage": "https://github.com/iSyn/More-Ore#readme",
+  "devDependencies": {
+    "babel-preset-env": "^1.6.0",
+    "babelify": "^7.3.0",
+    "browserify": "^14.4.0",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.6.1",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "babel": {
+    "presets": ["env"]
+  }
+}
